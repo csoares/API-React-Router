@@ -1,27 +1,29 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
-export default class CreateTask extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { name: "", username: "" };
+const CreateTask = (props) => {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
+  const handleChange = (event) => {
     console.log(event);
-    //TODO7: when we change the content of the input we need to update the state of name or username
-    if (event.target.name === "name")
-      this.setState({ name: event.target.value });
-    else this.setState({ username: event.target.value });
-  }
+    if (event.target.name === "name") {
+      setName(event.target.value);
+    } else {
+      setUsername(event.target.value);
+    }
+  };
 
-  handleSubmit(event) {
-    // TODO8: do a post to create a new event, we will only pass the username and name (other fields are optional)
-    const { name, username } = this.state;
+  const handleSubmit = (event) => {
+    const person = {
+      id: Math.floor(Math.random() * 999) + 1,
+      name: name,
+      username: username,
+      email: "Sincere@april.biz",
+      phone: "1-770-736-8031 x56442",
+      website: "hildegard.org",
+    };
+
     fetch("https://jsonplaceholder.typicode.com/users", {
       method: "POST",
       body: JSON.stringify({
@@ -41,54 +43,45 @@ export default class CreateTask extends React.Component {
       .then((json) => {
         console.log(json);
         alert("successfully created");
+        props.foo(person);
       })
       .catch((error) => {
         alert(error);
       });
 
-    let person = {
-      id: Math.floor(Math.random() * 999) + 1, // generate a random id - this is only for testing purposes
-      name: name,
-      username: username,
-      email: "Sincere@april.biz",
-      phone: "1-770-736-8031 x56442",
-      website: "hildegard.org",
-    };
-    //TODO9: for this API you do not need to send everything - call the addAnItem function from the ListTask Component
-    this.props.foo(person);
-    // since it is a form - you should prevent the submit effect
     event.preventDefault();
-  }
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Label>Name: </Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Username:</Form.Label>
+  };
 
-            <Form.Control
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form.Group>
-        </Form>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Name: </Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Username:</Form.Label>
+
+          <Form.Control
+            type="text"
+            name="username"
+            value={username}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form.Group>
+      </Form>
+    </div>
+  );
+};
+
+export default CreateTask;

@@ -1,11 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import "./styles.css";
 
-export default class About extends Component {
-  render() {
-    {
-      /* TODO11: add a class to the div - about-section */
-    }
-    return <div className="about-section"> About </div>;
-  }
-}
+const About = () => {
+  return <div className="about-section">About</div>;
+};
+
+export default About;

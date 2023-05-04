@@ -6,7 +6,6 @@ const CreateTask = (props) => {
   const [username, setUsername] = useState("");
 
   const handleChange = (event) => {
-    console.log(event);
     if (event.target.name === "name") {
       setName(event.target.value);
     } else {
@@ -43,12 +42,12 @@ const CreateTask = (props) => {
       .then((json) => {
         console.log(json);
         alert("successfully created");
-        props.foo(person);
       })
       .catch((error) => {
         alert(error);
       });
 
+    props.foo(person);
     event.preventDefault();
   };
 

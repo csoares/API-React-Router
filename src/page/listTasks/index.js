@@ -24,7 +24,6 @@ const ListTasks = () => {
 
   const addAnItem = (person) => {
     setItems((previousState) => [...previousState, person]);
-    console.log("add");
   };
 
   if (error) {
